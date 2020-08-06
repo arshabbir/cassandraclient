@@ -74,8 +74,8 @@ func (c *client) Delete(id int) *utils.ApiError {
 
 	//deleteQuery := fmt.Sprintf("Delete studentdetails  where id=?;")
 
-	if err := c.session.Query("Delete studentdetails  where where id=? ;", id).Exec(); err != nil {
-		log.Println("Delete query error")
+	if err := c.session.Query("Delete from studentdetails  where  id=? AND name='arshabbirhussain';", id).Exec(); err != nil {
+		log.Println("Delete query error", err)
 		return &utils.ApiError{Status: 0, Message: "Delete query error"}
 	}
 	return nil

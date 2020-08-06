@@ -29,7 +29,7 @@ func main() {
 	log.Println("Insertion  successful .")
 
 	log.Println("Sleeping for 10 seconds......")
-	time.Sleep(10)
+	time.Sleep(10 * time.Second)
 
 	log.Println("Updating the record.......")
 
@@ -41,8 +41,8 @@ func main() {
 
 	log.Println("Updation  successful .")
 
-	log.Println("Sleeping for 10 seconds......")
-	time.Sleep(10)
+	log.Println("Sleeping for 60 seconds......")
+	time.Sleep(60 * time.Second)
 
 	log.Println("Deleting the record.......")
 
