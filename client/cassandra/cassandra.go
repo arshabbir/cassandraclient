@@ -1,7 +1,6 @@
 package cassandra
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/arshabbir/cassandraclient/domain/dto"
@@ -20,60 +19,33 @@ type Client interface {
 	Delete(int) *utils.ApiError
 }
 
-////
-
-func init() {
-
-	//Initialize Cassandra session
-	/*cluster := gocql.NewCluster("34.207.221.180")
-	cluster.Keyspace = "oauth"
-	cluster.Consistency = gocql.Quorum*/
-
-	var err error
-
-	cluster := gocql.NewCluster("54.90.12.233")
-	cluster.Keyspace = "student"
-	cluster.ProtoVersion = 4
-	cluster.DisableInitialHostLookup = true
-	cluster.Timeout = 50000
-	cluster.Port = 9042
-
-	_, err = cluster.CreateSession()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("cassandra init done")
-
-}
-
-////
-
 func NewDBClient() Client {
 	//Get the Environment variable "CASSANDRACLUSTER"
 
-	/*
-		cluster := gocql.NewCluster("54.90.12.233")
-		cluster.Keyspace = "student"
+	cluster := gocql.NewCluster("54.172.41.19")
+	cluster.Keyspace = "student"
+	cluster.Consistency = gocql.Quorum
 
-		session, err := cluster.CreateSession()
+	session, err := cluster.CreateSession()
 
-		if err != nil {
-			log.Println("Cassandra Session Creation Error..", err.Error())
-			return nil
-		}
+	if err != nil {
+		log.Println("Cassandra Session Creation Error..", err.Error())
+		return nil
+	}
 
-		//defer session.Close()
-		return &client{cluster: cluster, session: session}*/
-	return nil
+	//defer session.Close()
+	return &client{cluster: cluster, session: session}
+
 }
 
 func (c *client) Create(st dto.Student) *utils.ApiError {
 
 	//Form the insert query & execute it
 
-	insertQuery := fmt.Sprintf("INSERT INTO student(id, name, class, marks) values(?, ?, ?, ?)")
+	//insertQuery := fmt.Sprintf("INSERT INTO studentdetails(id, name, class, marks) values(?, ?, ?, ?);")
 
-	if err := c.session.Query(insertQuery, st.Id, st.Name, st.Class, st.Marks).Exec(); err != nil {
+	log.Println("Executing the insert query")
+	if err := c.session.Query("INSERT INTO studentdetails(id, name, class, marks) values(?, ?, ?, ?);", st.Id, st.Name, st.Class, st.Marks).Exec(); err != nil {
 		log.Println("Insert query error")
 		return &utils.ApiError{Status: 0, Message: "Insert query error"}
 	}
@@ -88,10 +60,10 @@ func (c *client) Read(id int) ([]dto.Student, *utils.ApiError) {
 
 func (c *client) Update(id int, st dto.Student) *utils.ApiError {
 
-	updateQuery := fmt.Sprintf("Update student set  name=?, class=?, marks=? where id=?")
+	//updateQuery := fmt.Sprintf("Update studentdetails set  name=?, class=?, marks=? where id=?;")
 
-	if err := c.session.Query(updateQuery, st.Name, st.Class, st.Marks, id).Exec(); err != nil {
-		log.Println("Update query error")
+	if err := c.session.Query("Update studentdetails set  class=?, marks=? where id=? and name=?;", st.Class, st.Marks, id, st.Name).Exec(); err != nil {
+		log.Println("Update query error", err)
 		return &utils.ApiError{Status: 0, Message: "Update query error"}
 	}
 
@@ -100,9 +72,9 @@ func (c *client) Update(id int, st dto.Student) *utils.ApiError {
 
 func (c *client) Delete(id int) *utils.ApiError {
 
-	deleteQuery := fmt.Sprintf("Delete student  where id=?")
+	//deleteQuery := fmt.Sprintf("Delete studentdetails  where id=?;")
 
-	if err := c.session.Query(deleteQuery, id).Exec(); err != nil {
+	if err := c.session.Query("Delete studentdetails  where where id=? ;", id).Exec(); err != nil {
 		log.Println("Delete query error")
 		return &utils.ApiError{Status: 0, Message: "Delete query error"}
 	}

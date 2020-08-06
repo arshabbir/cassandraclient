@@ -32,7 +32,7 @@ func NewDAO() StudentDAO {
 
 func (c *studentDao) Create(st dto.Student) *utils.ApiError {
 
-	return nil
+	return c.dbclient.Create(st)
 }
 
 func (c *studentDao) Read(id int) ([]dto.Student, *utils.ApiError) {
@@ -42,11 +42,11 @@ func (c *studentDao) Read(id int) ([]dto.Student, *utils.ApiError) {
 
 func (c *studentDao) Update(id int, st dto.Student) *utils.ApiError {
 
-	return nil
+	return c.dbclient.Update(id, st)
 }
 
 func (c *studentDao) Delete(id int) *utils.ApiError {
 
-	return nil
+	return c.dbclient.Delete(id)
 
 }

@@ -1,44 +1,57 @@
 package main
 
 import (
-	"fmt"
 	"log"
+	"time"
 
-	"github.com/gocql/gocql"
+	"github.com/arshabbir/cassandraclient/domain/dao"
+	"github.com/arshabbir/cassandraclient/domain/dto"
 )
 
 func main() {
-	// connect to the cluster
-	cluster := gocql.NewCluster("54.90.12.233")
-	cluster.Keyspace = "student"
-	cluster.Consistency = gocql.Quorum
-	session, _ := cluster.CreateSession()
-	defer session.Close()
+	//Create the DAO object
 
-	// insert a tweet
-	if err := session.Query(`INSERT INTO tweet (timeline, id, text) VALUES (?, ?, ?)`,
-		"me", gocql.TimeUUID(), "hello world").Exec(); err != nil {
-		log.Fatal(err)
+	dao := dao.NewDAO()
+
+	if dao == nil {
+		log.Println("DAO creation error")
+		return
 	}
 
-	var id gocql.UUID
-	var text string
+	log.Println("DAO creation successful .")
 
-	/* Search for a specific set of records whose 'timeline' column matches
-	 * the value 'me'. The secondary index that we created earlier will be
-	 * used for optimizing the search */
-	if err := session.Query(`SELECT id, text FROM tweet WHERE timeline = ? LIMIT 1`,
-		"me").Consistency(gocql.One).Scan(&id, &text); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Tweet:", id, text)
+	if err := dao.Create(dto.Student{Id: 7, Name: "arshabbir", Marks: 90, Class: "Phd"}); err != nil {
 
-	// list all tweets
-	iter := session.Query(`SELECT id, text FROM tweet WHERE timeline = ?`, "me").Iter()
-	for iter.Scan(&id, &text) {
-		fmt.Println("Tweet:", id, text)
+		log.Println("Error inserting into dao")
+		return
 	}
-	if err := iter.Close(); err != nil {
-		log.Fatal(err)
+
+	log.Println("Insertion  successful .")
+
+	log.Println("Sleeping for 10 seconds......")
+	time.Sleep(10)
+
+	log.Println("Updating the record.......")
+
+	if err := dao.Update(7, dto.Student{Id: 7, Name: "arshabbirhussain", Marks: 93, Class: "(Phd)"}); err != nil {
+
+		log.Println("Error updating  into dao")
+		return
 	}
+
+	log.Println("Updation  successful .")
+
+	log.Println("Sleeping for 10 seconds......")
+	time.Sleep(10)
+
+	log.Println("Deleting the record.......")
+
+	if err := dao.Delete(7); err != nil {
+
+		log.Println("Error deleteting into dao")
+		return
+	}
+
+	log.Println("Deletion  successful .")
+
 }
