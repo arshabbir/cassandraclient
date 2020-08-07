@@ -67,7 +67,7 @@ func (c *client) Update(id int, st dto.Student) *utils.ApiError {
 
 	//updateQuery := fmt.Sprintf("Update studentdetails set  name=?, class=?, marks=? where id=?;")
 
-	if err := c.session.Query("Update studentdetails set name=? class=?, marks=? where id=? ;", st.Name, st.Class, st.Marks, id).Exec(); err != nil {
+	if err := c.session.Query("Update studentdetails set name=?, class=?, marks=? where id=? ;", st.Name, st.Class, st.Marks, id).Exec(); err != nil {
 		log.Println("Update query error", err)
 		return &utils.ApiError{Status: 0, Message: "Update query error"}
 	}
