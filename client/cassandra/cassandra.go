@@ -22,7 +22,7 @@ type Client interface {
 func NewDBClient() Client {
 	//Get the Environment variable "CASSANDRACLUSTER"
 
-	cluster := gocql.NewCluster("54.172.41.19")
+	cluster := gocql.NewCluster("54.90.57.182")
 	cluster.Keyspace = "student"
 	cluster.Consistency = gocql.Quorum
 
