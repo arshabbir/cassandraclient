@@ -2,6 +2,7 @@ package cassandra
 
 import (
 	"log"
+	"os"
 
 	"github.com/arshabbir/cassandraclient/domain/dto"
 	"github.com/arshabbir/cassandraclient/utils"
@@ -22,7 +23,11 @@ type Client interface {
 func NewDBClient() Client {
 	//Get the Environment variable "CASSANDRACLUSTER"
 
-	cluster := gocql.NewCluster("54.90.57.182")
+	clusterIP := os.Getenv("CLUSTERIP")
+
+	log.Println("ClusterIP environment  : ", clusterIP)
+
+	cluster := gocql.NewCluster(clusterIP)
 	cluster.Keyspace = "student"
 	cluster.Consistency = gocql.Quorum
 

@@ -142,6 +142,8 @@ func (sc *studentController) Update(c *gin.Context) {
 func (sc *studentController) Start() {
 
 	port := os.Getenv("PORT")
+
+	log.Println("Port environment  : ", port)
 	sc.c.POST("/create", sc.Create)
 	sc.c.POST("/delete", sc.Delete)
 	sc.c.PUT("/update", sc.Update)
