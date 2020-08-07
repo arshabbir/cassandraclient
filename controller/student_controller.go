@@ -145,7 +145,7 @@ func (sc *studentController) Start() {
 
 	log.Println("Port environment  : ", port)
 	sc.c.POST("/create", sc.Create)
-	sc.c.POST("/delete", sc.Delete)
+	sc.c.GET("/delete", sc.Delete)
 	sc.c.PUT("/update", sc.Update)
 
 	sc.c.Run(port)
