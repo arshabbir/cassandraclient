@@ -61,7 +61,7 @@ func (sc *studentController) Create(c *gin.Context) {
 	}
 
 	log.Println("Insertion  successful .")
-	c.JSON(http.StatusOK, &utils.ApiError{Status: http.StatusOK, Message: "Error inserting into dao"})
+	c.JSON(http.StatusOK, &utils.ApiError{Status: http.StatusOK, Message: "Insertion  successful "})
 
 	return
 }
@@ -134,7 +134,7 @@ func (sc *studentController) Update(c *gin.Context) {
 	}
 
 	log.Println("Insertion  successful .")
-	c.JSON(http.StatusOK, &utils.ApiError{Status: http.StatusOK, Message: "Error Updating into dao"})
+	c.JSON(http.StatusOK, &utils.ApiError{Status: http.StatusOK, Message: " Updating successful"})
 
 	return
 }
