@@ -1,7 +1,7 @@
 FROM golang
 
 ENV CLUSTERIP "54.90.57.182"
-ENV PORT "8080"
+ENV PORT "8081"
 
 RUN mkdir /build
 
@@ -14,7 +14,7 @@ RUN go mod download
 
 RUN go build -o cassandraclient
 
-EXPOSE 8080
+EXPOSE 8081
 
 ENTRYPOINT [".\cassandraclient"]
 
