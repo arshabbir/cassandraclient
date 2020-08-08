@@ -37,7 +37,7 @@ func (c *studentDao) Create(st dto.Student) *utils.ApiError {
 
 func (c *studentDao) Read(id int) ([]dto.Student, *utils.ApiError) {
 
-	return nil, nil
+	return c.dbclient.Read(id)
 }
 
 func (c *studentDao) Update(id int, st dto.Student) *utils.ApiError {

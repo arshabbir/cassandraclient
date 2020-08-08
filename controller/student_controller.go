@@ -147,6 +147,7 @@ func (sc *studentController) Start() {
 	sc.c.POST("/create", sc.Create)
 	sc.c.GET("/delete/:id", sc.Delete)
 	sc.c.PUT("/update", sc.Update)
+	sc.c.GET("/read/:id", sc.Read)
 
 	sc.c.Run(port)
 

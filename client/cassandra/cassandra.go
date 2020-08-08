@@ -50,7 +50,7 @@ func (c *client) Create(st dto.Student) *utils.ApiError {
 	//insertQuery := fmt.Sprintf("INSERT INTO studentdetails(id, name, class, marks) values(?, ?, ?, ?);")
 
 	log.Println("Executing the insert query")
-	if err := c.session.Query("INSERT INTO studentdetails(id, name, class, marks) values(?, ?, ?, ?);", st.Id, st.Name, st.Class, st.Marks).Exec(); err != nil {
+	if err := c.session.Query("INSERT INTO studentdetails(id, name, class, marks) values(?, ?, ?, ?);", st.Id, st.Name, st.Class, st.Marks).Consistency(gocql.Quorum).Exec(); err != nil {
 		log.Println("Insert query error")
 		return &utils.ApiError{Status: 0, Message: "Insert query error"}
 	}
@@ -60,7 +60,29 @@ func (c *client) Create(st dto.Student) *utils.ApiError {
 
 func (c *client) Read(id int) ([]dto.Student, *utils.ApiError) {
 
-	return nil, nil
+	//Q
+
+	var name, class string
+	var idd, marks int
+
+	iter := c.session.Query("SELECT id, name, class ,marks from studentdetails where id=?", id).Consistency(gocql.Quorum).Iter()
+	var students = make([]dto.Student, iter.NumRows())
+
+	log.Println("Number rows : ", iter.NumRows())
+
+	for i := 0; iter.Scan(&idd, &name, &class, &marks); {
+		//students = append(students, dto.Student{Name: name, Marks: marks, Id: idd, Class: class})
+		students[i] = dto.Student{Name: name, Marks: marks, Id: idd, Class: class}
+		i++
+
+	}
+
+	if err := iter.Close(); err != nil {
+		log.Fatal("Error closing the iterator")
+		return nil, nil
+	}
+
+	return students, nil
 }
 
 func (c *client) Update(id int, st dto.Student) *utils.ApiError {
