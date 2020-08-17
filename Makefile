@@ -5,12 +5,12 @@ GOBUILD=$(GO) build
 EXECNAME=testexe
 
 test:
-        @echo $(BUILDPATH)
+ @echo $(BUILDPATH)
 
 build:
-        @echo "Build starting......."
-        @if [ ! -d $(BUILDPATH)/bin ] ; then mkdir $(BUILDPATH)/bin ; fi
-        $(GOBUILD) -o $(BUILDPATH)/bin/$(EXECNAME)
-        @echo "Build successful......."
+ @echo "Build starting......."
+ @if [ ! -d $(BUILDPATH)/bin ] ; then mkdir $(BUILDPATH)/bin ; fi
+ $(GOBUILD) -o $(BUILDPATH)/bin/$(EXECNAME)
+ @echo "Build successful......."
 clean:  
-        @rm -rf  $(BUILDPATH)/bin
+ @rm -rf  $(BUILDPATH)/bin
