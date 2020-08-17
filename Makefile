@@ -4,14 +4,13 @@ GOBUILD=$(GO) build
 
 EXECNAME=testexe
 
-
-test :
+test:
         @echo $(BUILDPATH)
 
-build :
+build:
         @echo "Build starting......."
         @if [ ! -d $(BUILDPATH)/bin ] ; then mkdir $(BUILDPATH)/bin ; fi
         $(GOBUILD) -o $(BUILDPATH)/bin/$(EXECNAME)
         @echo "Build successful......."
-clean :
+clean:
         @rm -rf  $(BUILDPATH)/bin
