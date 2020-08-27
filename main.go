@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	//os.Setenv("CLUSTERIP", "3.90.70.181")
+	//os.Setenv("CLUSTERIP", "52.201.185.178")
 	//os.Setenv("PORT", ":8080")
 	log.Println("Starting the Application.......")
 	app.StartApplication()
