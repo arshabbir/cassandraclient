@@ -1,6 +1,6 @@
 FROM golang
 
-ENV CLUSTERIP "100.25.134.115"
+ENV CLUSTERIP "3.90.70.181"
 ENV PORT ":8081"
 
 RUN mkdir /build
@@ -18,5 +18,3 @@ EXPOSE 8081
 
 ENTRYPOINT ["./cassandraclient"]
 
-~
-~
